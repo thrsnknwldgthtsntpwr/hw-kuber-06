@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-read
+  labels:
+    app: log-read
+spec:
+  selector:
+    matchLabels:
+      app: log-read
+  template:
+    metadata:
+      labels:
+        app: log-read
+    spec:
+      containers:
+      - name: multitool
+        image: praqma/network-multitool
+        volumeMounts:
+        - name: var-log
+          mountPath: /in
+          readOnly: true
+      volumes:
+      - name: var-log
+        hostPath:
+          path: /var/log
+          type: Directory
